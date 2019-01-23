@@ -17,7 +17,7 @@ node('master') {
     def uploadSpec = """{
       "files": [
         {
-          "pattern": "target/hello-0.0.1.war",
+          "pattern": "target/hello-0.0.1.jar",
           "target": "example_test_jenkins_repo/${BUILD_NUMBER}/",
           "props": "Integration-Tested=Yes;Performance-Tested=No"
         }
