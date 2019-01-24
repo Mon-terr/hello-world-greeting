@@ -10,7 +10,9 @@ node('master') {
     archive 'target/*.jar'
   }
   stage ('Integration Test'){
-    sh 'mvn clean verify -Dsurefire.skip=true';
+      withMaven(maven: 'M3') {
+        sh 'mvn clean verify -Dsurefire.skip=true';
+      }
     junit '**/target/failsafe-reports/TEST-*.xml'
     archive 'target/*.jar'
   }
