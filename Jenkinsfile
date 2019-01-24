@@ -3,18 +3,14 @@ node('master') {
     checkout scm
   }
   stage('Build & Unit test'){
-	  withMaven(maven: 'M3', tempBinDir: '') {
-	// some block
-		sh label: '', script: 'mvn -Dmaven.test.failure.ignore clean package'
-	}
     sh 'mvn clean verify -DskipITs=true';
     junit '**/target/surefire-reports/TEST-*.xml'
-    archiveArtifacts 'target/*.jar'
+    archive 'target/*.jar'
   }
   stage ('Integration Test'){
     sh 'mvn clean verify -Dsurefire.skip=true';
     junit '**/target/failsafe-reports/TEST-*.xml'
-    archiveArtifacts 'target/*.jar'
+    archive 'target/*.jar'
   }
   stage ('Publish'){
     def server = Artifactory.server 'Study Artifactory Server'
@@ -29,10 +25,4 @@ node('master') {
     }"""
     server.upload(uploadSpec)
   }
-   stage('Deploy') {
-        echo "Deploy is not yet implemented"
-		//sh "ssh root@172.17.201.150 rm -rf /root/nems2/jenkins_deploy_test/dist/"
-		sh "ssh root@172.17.201.150 mkdir -p /root/nems2/jenkins_deploy_test/"
-		//sh ‘scp -r dist root@172.17.201.150:/root/nems2/jenkins_deploy_test/disk/’
-    }
 }
