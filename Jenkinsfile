@@ -14,7 +14,7 @@ node('master') {
         sh 'mvn clean verify -Dsurefire.skip=true';
       }
     junit '**/target/failsafe-reports/TEST-*.xml'
-    archiveArtifacts 'target/*.jar'
+    archive 'target/*.jar'
   }
   stage ('Publish'){
     def server = Artifactory.server 'Study Artifactory Server'
