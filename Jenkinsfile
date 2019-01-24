@@ -7,7 +7,7 @@ node('master') {
       sh 'mvn clean verify -DskipITs=true';
     }
     junit '**/target/surefire-reports/TEST-*.xml'
-    archiveArtifacts 'target/*.jar'
+    archive 'target/*.jar'
   }
   stage ('Integration Test'){
       withMaven(maven: 'M3') {
