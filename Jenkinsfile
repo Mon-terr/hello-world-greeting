@@ -3,6 +3,10 @@ node('master') {
     checkout scm
   }
   stage('Build & Unit test'){
+	  withMaven(maven: 'M3', tempBinDir: '') {
+	// some block
+		sh label: '', script: 'mvn -Dmaven.test.failure.ignore clean package'
+	}
     sh 'mvn clean verify -DskipITs=true';
     junit '**/target/surefire-reports/TEST-*.xml'
     archiveArtifacts 'target/*.jar'
